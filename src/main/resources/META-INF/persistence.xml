@@ -3,10 +3,10 @@
     <persistence-unit name="MyApplicationPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>org.example.Entities.Book</class>
-        <class>org.example.Entities.Author</class>
-        <class>org.example.Entities.Genre</class>
-        <class>org.example.Entities.PublishingHouse</class>
+        <class>org.example.entities.Book</class>
+        <class>org.example.entities.Author</class>
+        <class>org.example.entities.Genre</class>
+        <class>org.example.entities.PublishingHouse</class>
 
 
         <properties>

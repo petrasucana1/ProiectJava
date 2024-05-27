@@ -2,87 +2,63 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2024-05-11T22:41:59.112921400Z</date>
-  <millis>1715467319112</millis>
-  <nanos>921400</nanos>
-  <sequence>0</sequence>
+  <date>2024-05-27T10:37:36.926522900Z</date>
+  <millis>1716806256926</millis>
+  <nanos>522900</nanos>
+  <sequence>11</sequence>
   <logger>org.example.LoggerConfig</logger>
   <level>INFO</level>
-  <class>org.example.Main</class>
-  <method>main</method>
+  <class>org.exemple.repository.BookRepositoryTest</class>
+  <method>create</method>
+  <thread>1</thread>
+  <message>Test started</message>
+</record>
+<record>
+  <date>2024-05-27T10:37:37.011756700Z</date>
+  <millis>1716806257011</millis>
+  <nanos>756700</nanos>
+  <sequence>12</sequence>
+  <logger>org.example.LoggerConfig</logger>
+  <level>INFO</level>
+  <class>org.example.entities.Book</class>
+  <method>addGenre</method>
   <thread>1</thread>
   <message>Entity method invoked</message>
 </record>
 <record>
-  <date>2024-05-11T22:42:05.777324500Z</date>
-  <millis>1715467325777</millis>
-  <nanos>324500</nanos>
-  <sequence>12</sequence>
-  <logger>org.example.LoggerConfig</logger>
-  <level>INFO</level>
-  <class>org.example.Repository.AbstractRepository</class>
-  <method>create</method>
-  <thread>1</thread>
-  <message>Entity created successfully: Author{id=113, name='Test Author'}</message>
-</record>
-<record>
-  <date>2024-05-11T22:42:05.779949500Z</date>
-  <millis>1715467325779</millis>
-  <nanos>949500</nanos>
+  <date>2024-05-27T10:37:37.048397Z</date>
+  <millis>1716806257048</millis>
+  <nanos>397000</nanos>
   <sequence>13</sequence>
   <logger>org.example.LoggerConfig</logger>
   <level>INFO</level>
-  <class>org.example.Repository.AbstractRepository</class>
-  <method>create</method>
+  <class>org.exemple.repository.BookRepositoryTest</class>
+  <method>findById</method>
   <thread>1</thread>
-  <message>CREATE executed in: 31 milliseconds</message>
+  <message>Test started</message>
 </record>
 <record>
-  <date>2024-05-11T22:42:05.792957500Z</date>
-  <millis>1715467325792</millis>
-  <nanos>957500</nanos>
+  <date>2024-05-27T10:37:37.056977500Z</date>
+  <millis>1716806257056</millis>
+  <nanos>977500</nanos>
   <sequence>14</sequence>
   <logger>org.example.LoggerConfig</logger>
   <level>INFO</level>
-  <class>org.example.Repository.AbstractRepository</class>
-  <method>create</method>
+  <class>org.exemple.repository.BookRepositoryTest</class>
+  <method>findByName</method>
   <thread>1</thread>
-  <message>Entity created successfully: PublishingHouse{id=56, name='Example Publishing', books=[]}</message>
+  <message>Test started</message>
 </record>
 <record>
-  <date>2024-05-11T22:42:05.793477800Z</date>
-  <millis>1715467325793</millis>
-  <nanos>477800</nanos>
+  <date>2024-05-27T10:37:37.083286300Z</date>
+  <millis>1716806257083</millis>
+  <nanos>286300</nanos>
   <sequence>15</sequence>
   <logger>org.example.LoggerConfig</logger>
   <level>INFO</level>
-  <class>org.example.Repository.AbstractRepository</class>
-  <method>create</method>
+  <class>org.example.repository.AbstractRepository</class>
+  <method>findByName</method>
   <thread>1</thread>
-  <message>CREATE executed in: 13 milliseconds</message>
-</record>
-<record>
-  <date>2024-05-11T22:42:05.807795800Z</date>
-  <millis>1715467325807</millis>
-  <nanos>795800</nanos>
-  <sequence>16</sequence>
-  <logger>org.example.LoggerConfig</logger>
-  <level>INFO</level>
-  <class>org.example.Repository.AbstractRepository</class>
-  <method>create</method>
-  <thread>1</thread>
-  <message>Entity created successfully: Book{id=207, title='Example Book', authorId=1, publicationDate=2024-05-12, language='English', publishingHouse=PublishingHouse{id=56, name='Example Publishing', books=[]}}</message>
-</record>
-<record>
-  <date>2024-05-11T22:42:05.808360900Z</date>
-  <millis>1715467325808</millis>
-  <nanos>360900</nanos>
-  <sequence>17</sequence>
-  <logger>org.example.LoggerConfig</logger>
-  <level>INFO</level>
-  <class>org.example.Repository.AbstractRepository</class>
-  <method>create</method>
-  <thread>1</thread>
-  <message>CREATE executed in: 15 milliseconds</message>
+  <message>FIND_BY_NAME executed in: 14 milliseconds</message>
 </record>
 </log>

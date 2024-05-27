@@ -1,8 +1,8 @@
-package org.example.Repository;
+package org.example.repository;
 
-import org.example.Entities.Book;
+import org.example.entities.Book;
 
-import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class BookRepository extends AbstractRepository<Book, Integer> {
@@ -18,6 +18,12 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
     @Override
     protected String getFindByNameQueryName() {
         return "Book.findByName";
+    }
+
+    @Transactional
+    public List<Book> selectAllBooks() {
+        String query = "SELECT b FROM Book b";
+        return entityManager.createQuery(query, Book.class).getResultList();
     }
 
 }

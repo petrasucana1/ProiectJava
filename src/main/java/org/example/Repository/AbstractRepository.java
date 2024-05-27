@@ -1,6 +1,6 @@
-package org.example.Repository;
+package org.example.repository;
 
-import org.example.Entities.ManagerFactory;
+import org.example.entities.ManagerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.example.LoggerConfig;
 
 

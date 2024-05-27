@@ -1,9 +1,6 @@
-package org.example.Repository;
+package org.example.repository;
 
-import org.example.Entities.Genre;
-
-import javax.persistence.Query;
-import java.util.List;
+import org.example.entities.Genre;
 
 public class GenreRepository extends AbstractRepository<Genre, Integer> {
 

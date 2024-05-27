@@ -1,9 +1,6 @@
-package org.example.Repository;
+package org.example.repository;
 
-import org.example.Entities.Author;
-
-import javax.persistence.Query;
-import java.util.List;
+import org.example.entities.Author;
 
 public class AuthorRepository extends AbstractRepository<Author, Integer> {
 

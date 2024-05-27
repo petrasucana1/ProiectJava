@@ -1,11 +1,7 @@
-package org.example.Repository;
+package org.example.repository;
 
-import org.example.Entities.Book;
-import org.example.Entities.Genre;
-import org.example.Entities.PublishingHouse;
-
-import javax.persistence.Query;
-import java.util.List;
+import org.example.entities.Book;
+import org.example.entities.PublishingHouse;
 
 public class PublishingHouseRepository extends AbstractRepository<PublishingHouse, Integer> {
 

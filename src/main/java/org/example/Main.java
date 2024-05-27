@@ -19,19 +19,14 @@ import java.time.LocalDate;
 import java.util.List;
 */
 
-import org.example.Entities.*;
-import org.example.Repository.AuthorRepository;
-import org.example.Repository.BookRepository;
-import org.example.Repository.GenreRepository;
-import org.example.Repository.PublishingHouseRepository;
+import org.example.entities.*;
+import org.example.repository.AuthorRepository;
+import org.example.repository.BookRepository;
+import org.example.repository.PublishingHouseRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+
 import java.time.LocalDate;
-
-
+import java.util.List;
 
 
 public class Main {
@@ -48,8 +43,13 @@ public class Main {
         PublishingHouse publishingHouse = new PublishingHouse("Example Publishing");
         publishingHouseRepository.create(publishingHouse);
 
-        Book book = new Book("Example Book", 1, LocalDate.now(), "English", publishingHouse);
+        Book book = new Book("Example Book 1", 1, LocalDate.now(), "English", publishingHouse);
         bookRepository.create(book);
+
+        List<Book> allBooks = bookRepository.selectAllBooks();
+        for (Book b : allBooks) {
+            System.out.println(b);
+        }
 
 
        /* Connection con;
