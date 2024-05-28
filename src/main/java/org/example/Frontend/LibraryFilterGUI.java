@@ -1,152 +1,72 @@
 package org.example.Frontend;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-class Book {
-    private int id;
-    private String title;
-    private String author;
-    private LocalDate publicationDate;
-    private String language;
-    private String publishingHouse;
-
-    public Book(int id, String title, String author, LocalDate publicationDate, String language, String publishingHouse) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.publicationDate = publicationDate;
-        this.language = language;
-        this.publishingHouse = publishingHouse;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public LocalDate getPublicationDate() {
-        return publicationDate;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getPublishingHouse() {
-        return publishingHouse;
-    }
-}
-
 public class LibraryFilterGUI {
     private JFrame frame;
-    private JTextField authorField;
-    private JTextField titleField;
-    private JTextField yearField;
-    private JComboBox<String> languageComboBox;
-    private JButton searchButton;
-    private JTable resultsTable;
+    private JPanel contentPanel;
+    private JButton takeQuizButton;
     private List<Book> books;
 
     public LibraryFilterGUI() {
-        books = generateDummyBooks();
-
         frame = new JFrame("Library Book Filter");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setLayout(new BorderLayout());
 
-        // Titlu "Online Library Viewer"
-        JLabel titleLabel = new JLabel("Online Library Viewer", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        titleLabel.setForeground(new Color(0x6c584c));
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBackground(new Color(0xf0ead2));
-        titlePanel.add(titleLabel, BorderLayout.CENTER);
-        titlePanel.setBorder(new EmptyBorder(20, 0, 20, 0));
+        contentPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    BufferedImage image = ImageIO.read(new File("C:/Users/aioan/OneDrive/Desktop/library.jpg"));
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
 
-        JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(new Color(0xf0ead2));
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPanel.setLayout(new BorderLayout());
 
-        JPanel filterPanel = new JPanel(new GridBagLayout());
-        filterPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        filterPanel.setBackground(new Color(0xf0ead2));
+        JLabel welcomeLabel = new JLabel("Welcome! Take our quiz to find out which book suits you the best!");
+        welcomeLabel.setForeground(Color.WHITE);
+        welcomeLabel.setFont(new Font("Serif", Font.BOLD, 30));
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        contentPanel.add(welcomeLabel, BorderLayout.CENTER);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1;
-        filterPanel.add(new JLabel("Author:"), gbc);
-        authorField = new JTextField();
-        authorField.setPreferredSize(new Dimension(300, 30));
-        gbc.gridx = 1;
-        filterPanel.add(authorField, gbc);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setOpaque(false);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        filterPanel.add(new JLabel("Title:"), gbc);
-        titleField = new JTextField();
-        titleField.setPreferredSize(new Dimension(300, 30));
-        gbc.gridx = 1;
-        filterPanel.add(titleField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        filterPanel.add(new JLabel("Year:"), gbc);
-        yearField = new JTextField();
-        yearField.setPreferredSize(new Dimension(300, 30));
-        gbc.gridx = 1;
-        filterPanel.add(yearField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        filterPanel.add(new JLabel("Language:"), gbc);
-        String[] languages = {"", "English", "French", "Spanish", "German", "Italian"};
-        languageComboBox = new JComboBox<>(languages);
-        languageComboBox.setPreferredSize(new Dimension(300, 30));
-        gbc.gridx = 1;
-        filterPanel.add(languageComboBox, gbc);
-
-        searchButton = new JButton("Search");
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        filterPanel.add(searchButton, gbc);
-        searchButton.addActionListener(new ActionListener() {
+        takeQuizButton = new JButton("Take Quiz");
+        takeQuizButton.setFont(new Font("Serif", Font.BOLD, 24));
+        takeQuizButton.setBackground(new Color(139, 69, 19));
+        takeQuizButton.setForeground(Color.WHITE);
+        takeQuizButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                performSearch();
+                openQuizPage();
             }
         });
 
-        mainPanel.add(filterPanel, gbc);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
+        buttonPanel.add(takeQuizButton);
 
-        frame.add(titlePanel, BorderLayout.NORTH);
-        frame.add(mainPanel, BorderLayout.CENTER);
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        resultsTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(resultsTable);
-        frame.add(scrollPane, BorderLayout.SOUTH);
-
+        frame.add(contentPanel);
         frame.setVisible(true);
+
+        books = generateDummyBooks();
     }
 
     private List<Book> generateDummyBooks() {
@@ -158,59 +78,11 @@ public class LibraryFilterGUI {
         return books;
     }
 
-    private void performSearch() {
-        String authorName = authorField.getText();
-        String title = titleField.getText();
-        String year = yearField.getText();
-        String language = (String) languageComboBox.getSelectedItem();
-
-        List<Book> filteredBooks = new ArrayList<>();
-        for (Book book : books) {
-            boolean matches = true;
-            if (!authorName.isEmpty() && !book.getAuthor().toLowerCase().contains(authorName.toLowerCase())) {
-                matches = false;
-            }
-            if (!title.isEmpty() && !book.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                matches = false;
-            }
-            if (!year.isEmpty()) {
-                try {
-                    int yearInt = Integer.parseInt(year);
-                    if (book.getPublicationDate().getYear() != yearInt) {
-                        matches = false;
-                    }
-                } catch (NumberFormatException e) {
-                    matches = false;
-                }
-            }
-            if (!language.isEmpty() && !book.getLanguage().toLowerCase().equals(language.toLowerCase())) {
-                matches = false;
-            }
-            if (matches) {
-                filteredBooks.add(book);
-            }
-        }
-
-        displayResults(filteredBooks);
-    }
-
-    private void displayResults(List<Book> books) {
-        String[] columns = {"ID", "Title", "Author", "Year", "Language", "Publishing House"};
-        DefaultTableModel model = new DefaultTableModel(columns, 0);
-
-        for (Book book : books) {
-            Object[] row = {
-                    book.getId(),
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getPublicationDate().getYear(),
-                    book.getLanguage(),
-                    book.getPublishingHouse()
-            };
-            model.addRow(row);
-        }
-
-        resultsTable.setModel(model);
+    private void openQuizPage() {
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(new QuizPage(books));
+        frame.revalidate();
+        frame.repaint();
     }
 
     public static void main(String[] args) {

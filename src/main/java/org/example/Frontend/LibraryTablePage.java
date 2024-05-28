@@ -1,10 +1,4 @@
-package org.example.swing;
-
-
-import org.example.entities.Book;
-import org.example.repository.AuthorRepository;
-import org.example.repository.BookRepository;
-
+package org.example.Frontend;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,10 +6,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryFilterGUI {
+public class LibraryTablePage implements SearchResultsPage.SearchResultsListener {
+    private List<Book> books;
     private JFrame frame;
     private JTextField authorField;
     private JTextField titleField;
@@ -23,10 +19,9 @@ public class LibraryFilterGUI {
     private JComboBox<String> languageComboBox;
     private JButton searchButton;
     private JTable resultsTable;
-    private List<Book> books;
 
-    public LibraryFilterGUI() {
-        books = getBooks();
+    public LibraryTablePage() {
+        books = generateDummyBooks();
 
         frame = new JFrame("Library Book Filter");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,10 +107,13 @@ public class LibraryFilterGUI {
         frame.setVisible(true);
     }
 
-    private List<Book> getBooks() {
-        BookRepository bookRepository=new BookRepository();
-        List<Book> allBooks = bookRepository.selectAllBooks();
-        return allBooks;
+    private List<Book> generateDummyBooks() {
+        List<Book> books = new ArrayList<>();
+        books.add(new Book(1, "Book One", "Author A", LocalDate.of(2020, 1, 1), "English", "Publisher 1"));
+        books.add(new Book(2, "Book Two", "Author B", LocalDate.of(2019, 1, 1), "French", "Publisher 2"));
+        books.add(new Book(3, "Book Three", "Author A", LocalDate.of(2021, 1, 1), "English", "Publisher 3"));
+        books.add(new Book(4, "Book Four", "Author C", LocalDate.of(2018, 1, 1), "Spanish", "Publisher 4"));
+        return books;
     }
 
     private void performSearch() {
@@ -124,12 +122,10 @@ public class LibraryFilterGUI {
         String year = yearField.getText();
         String language = (String) languageComboBox.getSelectedItem();
 
-        AuthorRepository authorRepository =new AuthorRepository();
-
         List<Book> filteredBooks = new ArrayList<>();
         for (Book book : books) {
             boolean matches = true;
-            if (!authorName.isEmpty() && !authorRepository.findById(book.getAuthorId()).getName().toLowerCase().contains(authorName.toLowerCase())) {
+            if (!authorName.isEmpty() && !book.getAuthor().toLowerCase().contains(authorName.toLowerCase())) {
                 matches = false;
             }
             if (!title.isEmpty() && !book.getTitle().toLowerCase().contains(title.toLowerCase())) {
@@ -138,14 +134,16 @@ public class LibraryFilterGUI {
             if (!year.isEmpty()) {
                 try {
                     int yearInt = Integer.parseInt(year);
-                    if (book.getPublicationDate().getYear() != yearInt) {
+
+                    int bookYear = book.getPublicationDate().getYear();
+                    if (bookYear != yearInt) {
                         matches = false;
                     }
-                } catch (NumberFormatException e) {
+                } catch (NumberFormatException ex) {
                     matches = false;
                 }
             }
-            if (!language.isEmpty() && !book.getLanguage().toLowerCase().equals(language.toLowerCase())) {
+            if (!language.isEmpty() && !book.getLanguage().equalsIgnoreCase(language)) {
                 matches = false;
             }
             if (matches) {
@@ -160,12 +158,11 @@ public class LibraryFilterGUI {
         String[] columns = {"ID", "Title", "Author", "Year", "Language", "Publishing House"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
 
-        AuthorRepository authorRepository =new AuthorRepository();
         for (Book book : books) {
             Object[] row = {
                     book.getId(),
                     book.getTitle(),
-                    authorRepository.findById(book.getAuthorId()).getName(),
+                    book.getAuthor(),
                     book.getPublicationDate().getYear(),
                     book.getLanguage(),
                     book.getPublishingHouse()
@@ -175,13 +172,9 @@ public class LibraryFilterGUI {
 
         resultsTable.setModel(model);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new LibraryFilterGUI();
-            }
-        });
+    @Override
+    public void onSearchButtonClicked() {
+        frame.setVisible(true);
     }
+
 }
