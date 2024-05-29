@@ -1,8 +1,10 @@
-package org.example.frontend;
+package org.example.swing;
 
+
+import org.example.entities.Book;
 import org.example.repository.AuthorRepository;
 import org.example.repository.BookRepository;
-import org.example.entities.Book;
+
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,22 +12,26 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryTablePage extends JPanel implements SearchResultsPage.SearchResultsListener {
-    private List<Book> books;
+public class LibraryFilterGUI {
+    private JFrame frame;
     private JTextField authorField;
     private JTextField titleField;
     private JTextField yearField;
     private JComboBox<String> languageComboBox;
     private JButton searchButton;
     private JTable resultsTable;
+    private List<Book> books;
 
-    public LibraryTablePage() {
+    public LibraryFilterGUI() {
         books = getBooks();
-        setLayout(new BorderLayout());
+
+        frame = new JFrame("Library Book Filter");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        frame.setLayout(new BorderLayout());
 
         // Titlu "Online Library Viewer"
         JLabel titleLabel = new JLabel("Online Library Viewer", SwingConstants.CENTER);
@@ -96,17 +102,19 @@ public class LibraryTablePage extends JPanel implements SearchResultsPage.Search
 
         mainPanel.add(filterPanel, gbc);
 
-        add(titlePanel, BorderLayout.NORTH);
-        add(mainPanel, BorderLayout.CENTER);
+        frame.add(titlePanel, BorderLayout.NORTH);
+        frame.add(mainPanel, BorderLayout.CENTER);
 
         resultsTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(resultsTable);
-        add(scrollPane, BorderLayout.SOUTH);
+        frame.add(scrollPane, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
     }
 
     private List<Book> getBooks() {
         BookRepository bookRepository=new BookRepository();
-        List<org.example.entities.Book> allBooks = bookRepository.selectAllBooks();
+        List<Book> allBooks = bookRepository.selectAllBooks();
         return allBooks;
     }
 
@@ -130,15 +138,14 @@ public class LibraryTablePage extends JPanel implements SearchResultsPage.Search
             if (!year.isEmpty()) {
                 try {
                     int yearInt = Integer.parseInt(year);
-                    int bookYear = book.getPublicationDate().getYear();
-                    if (bookYear != yearInt) {
+                    if (book.getPublicationDate().getYear() != yearInt) {
                         matches = false;
                     }
-                } catch (NumberFormatException ex) {
+                } catch (NumberFormatException e) {
                     matches = false;
                 }
             }
-            if (!language.isEmpty() && !book.getLanguage().equalsIgnoreCase(language)) {
+            if (!language.isEmpty() && !book.getLanguage().toLowerCase().equals(language.toLowerCase())) {
                 matches = false;
             }
             if (matches) {
@@ -152,8 +159,8 @@ public class LibraryTablePage extends JPanel implements SearchResultsPage.Search
     private void displayResults(List<Book> books) {
         String[] columns = {"ID", "Title", "Author", "Year", "Language", "Publishing House"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
-        AuthorRepository authorRepository =new AuthorRepository();
 
+        AuthorRepository authorRepository =new AuthorRepository();
         for (Book book : books) {
             Object[] row = {
                     book.getId(),
@@ -169,8 +176,12 @@ public class LibraryTablePage extends JPanel implements SearchResultsPage.Search
         resultsTable.setModel(model);
     }
 
-    @Override
-    public void onSearchButtonClicked() {
-        // Logic to handle search button click if needed
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new LibraryFilterGUI();
+            }
+        });
     }
 }

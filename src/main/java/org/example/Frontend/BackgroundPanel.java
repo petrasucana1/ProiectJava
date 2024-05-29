@@ -1,4 +1,4 @@
-package org.example.Frontend;
+package org.example.frontend;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

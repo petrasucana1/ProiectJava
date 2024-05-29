@@ -1,4 +1,7 @@
-package org.example.Frontend;
+package org.example.frontend;
+
+import org.example.entities.Book;
+import org.example.repository.BookRepository;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -66,16 +69,13 @@ public class LibraryFilterGUI {
         frame.add(contentPanel);
         frame.setVisible(true);
 
-        books = generateDummyBooks();
+        books = getBooks();
     }
 
-    private List<Book> generateDummyBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book(1, "Book One", "Author A", LocalDate.of(2020, 1, 1), "English", "Publisher 1"));
-        books.add(new Book(2, "Book Two", "Author B", LocalDate.of(2019, 1, 1), "French", "Publisher 2"));
-        books.add(new Book(3, "Book Three", "Author A", LocalDate.of(2021, 1, 1), "English", "Publisher 3"));
-        books.add(new Book(4, "Book Four", "Author C", LocalDate.of(2018, 1, 1), "Spanish", "Publisher 4"));
-        return books;
+    private List<Book> getBooks() {
+        BookRepository bookRepository=new BookRepository();
+        List<org.example.entities.Book> allBooks = bookRepository.selectAllBooks();
+        return allBooks;
     }
 
     private void openQuizPage() {

@@ -1,4 +1,6 @@
-package org.example.Frontend;
+package org.example.frontend;
+
+import org.example.entities.Book;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,47 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-class Book {
-    private int id;
-    private String title;
-    private String author;
-    private LocalDate publicationDate;
-    private String language;
-    private String publishingHouse;
-
-    public Book(int id, String title, String author, LocalDate publicationDate, String language, String publishingHouse) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.publicationDate = publicationDate;
-        this.language = language;
-        this.publishingHouse = publishingHouse;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public LocalDate getPublicationDate() {
-        return publicationDate;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getPublishingHouse() {
-        return publishingHouse;
-    }
-}
 
 
 public class QuizPage extends BackgroundPanel {
@@ -201,7 +162,8 @@ public class QuizPage extends BackgroundPanel {
                 // Deschidem SearchResultPage când utilizatorul apasă butonul de căutare
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(QuizPage.this);
                 frame.getContentPane().removeAll();
-                frame.getContentPane().add(new SearchResultsPage());
+                List<String> selectedAnswers= collectSelectedOptions();
+                frame.getContentPane().add(new SearchResultsPage(selectedAnswers));
                 frame.repaint();
                 frame.revalidate();
             }
