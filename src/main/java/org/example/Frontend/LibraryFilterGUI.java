@@ -28,7 +28,7 @@ public class LibraryFilterGUI {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {
-                    BufferedImage image = ImageIO.read(new File("C:/Users/aioan/OneDrive/Desktop/library.jpg"));
+                    BufferedImage image = ImageIO.read(new File("library.jpg"));
                     g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
                 } catch (IOException e) {
                     e.printStackTrace();

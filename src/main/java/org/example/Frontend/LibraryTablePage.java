@@ -10,9 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryTablePage implements SearchResultsPage.SearchResultsListener {
+public class LibraryTablePage extends JPanel implements SearchResultsPage.SearchResultsListener {
     private List<Book> books;
-    private JFrame frame;
     private JTextField authorField;
     private JTextField titleField;
     private JTextField yearField;
@@ -22,11 +21,7 @@ public class LibraryTablePage implements SearchResultsPage.SearchResultsListener
 
     public LibraryTablePage() {
         books = generateDummyBooks();
-
-        frame = new JFrame("Library Book Filter");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
         // Titlu "Online Library Viewer"
         JLabel titleLabel = new JLabel("Online Library Viewer", SwingConstants.CENTER);
@@ -97,14 +92,12 @@ public class LibraryTablePage implements SearchResultsPage.SearchResultsListener
 
         mainPanel.add(filterPanel, gbc);
 
-        frame.add(titlePanel, BorderLayout.NORTH);
-        frame.add(mainPanel, BorderLayout.CENTER);
+        add(titlePanel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
 
         resultsTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(resultsTable);
-        frame.add(scrollPane, BorderLayout.SOUTH);
-
-        frame.setVisible(true);
+        add(scrollPane, BorderLayout.SOUTH);
     }
 
     private List<Book> generateDummyBooks() {
@@ -134,7 +127,6 @@ public class LibraryTablePage implements SearchResultsPage.SearchResultsListener
             if (!year.isEmpty()) {
                 try {
                     int yearInt = Integer.parseInt(year);
-
                     int bookYear = book.getPublicationDate().getYear();
                     if (bookYear != yearInt) {
                         matches = false;
@@ -172,9 +164,9 @@ public class LibraryTablePage implements SearchResultsPage.SearchResultsListener
 
         resultsTable.setModel(model);
     }
+
     @Override
     public void onSearchButtonClicked() {
-        frame.setVisible(true);
+        // Logic to handle search button click if needed
     }
-
 }

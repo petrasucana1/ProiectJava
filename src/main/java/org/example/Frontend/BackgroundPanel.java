@@ -12,7 +12,7 @@ public class BackgroundPanel extends JPanel {
 
     public BackgroundPanel() {
         try {
-            backgroundImage = ImageIO.read(new File("C:/Users/aioan/OneDrive/Desktop/library2v.jpg"));
+            backgroundImage = ImageIO.read(new File("library2v.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

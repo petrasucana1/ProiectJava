@@ -28,12 +28,18 @@ public class SearchResultsPage extends BackgroundPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LibraryTablePage tablePage = new LibraryTablePage(); // Inițializează clasa LibraryTablePage
-                //tablePage.performSearch(); // Efectuează căutarea inițială
+
+                // Deschidem LibraryTablePage în aceeași fereastră
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SearchResultsPage.this);
+                frame.getContentPane().removeAll();
+                frame.getContentPane().add(tablePage);
+                frame.repaint();
+                frame.revalidate();
             }
         });
     }
 
-        public void setSearchResultsListener(SearchResultsListener listener) {
+    public void setSearchResultsListener(SearchResultsListener listener) {
         this.listener = listener;
     }
 
