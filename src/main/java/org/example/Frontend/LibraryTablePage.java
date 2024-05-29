@@ -27,7 +27,7 @@ public class LibraryTablePage extends JPanel implements SearchResultsPage.Search
         books = getBooks();
         setLayout(new BorderLayout());
 
-        // Titlu "Online Library Viewer"
+
         JLabel titleLabel = new JLabel("Online Library Viewer", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
         titleLabel.setForeground(new Color(0x6c584c));
@@ -171,6 +171,6 @@ public class LibraryTablePage extends JPanel implements SearchResultsPage.Search
 
     @Override
     public void onSearchButtonClicked() {
-        // Logic to handle search button click if needed
+
     }
 }

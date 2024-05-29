@@ -5,6 +5,7 @@ import org.example.repository.AuthorRepository;
 import org.example.repository.BookRepository;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,11 +16,8 @@ import java.util.List;
 public class SearchResultsPage extends BackgroundPanel {
     private JButton searchButton;
     private SearchResultsListener listener;
-
     private List<String> answers;
-
-    private List<Book>books;
-
+    private List<Book> books;
     private JTable resultsTable;
 
     public SearchResultsPage(List<String> selectedAnswers) {
@@ -42,9 +40,9 @@ public class SearchResultsPage extends BackgroundPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LibraryTablePage tablePage = new LibraryTablePage(); // Inițializează clasa LibraryTablePage
+                LibraryTablePage tablePage = new LibraryTablePage();
 
-                // Deschidem LibraryTablePage în aceeași fereastră
+
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SearchResultsPage.this);
                 frame.getContentPane().removeAll();
                 frame.getContentPane().add(tablePage);
@@ -54,53 +52,36 @@ public class SearchResultsPage extends BackgroundPanel {
         });
 
 
-        // Filtrarea cărților
         List<Book> selectedBooks = filterBooks(answers);
 
-        // Adaugă un JPanel pentru a afișa cărțile
+
         resultsTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(resultsTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Afișarea rezultatelor
+
         displayResults(selectedBooks);
     }
 
     private List<Book> filterBooks(List<String> answers) {
-        List<Book> selectedBooks = new ArrayList<>();
+        List<Book> selectedBooks = new ArrayList<>(books);
 
         for (String answ : answers) {
             switch (answ) {
                 case "Before 1900":
-                    for (Book book : books) {
-                        if (book.getPublicationDate().getYear() < 1900) {
-                            selectedBooks.add(book);
-                        }
-                    }
+                    selectedBooks.removeIf(book -> book.getPublicationDate().getYear() >= 1900);
                     break;
 
                 case "1900-1950":
-                    for (Book book : books) {
-                        if (book.getPublicationDate().getYear() >= 1900 && book.getPublicationDate().getYear() <= 1950) {
-                            selectedBooks.add(book);
-                        }
-                    }
+                    selectedBooks.removeIf(book -> book.getPublicationDate().getYear() < 1900 || book.getPublicationDate().getYear() > 1950);
                     break;
 
                 case "1950-2000":
-                    for (Book book : books) {
-                        if (book.getPublicationDate().getYear() > 1950 && book.getPublicationDate().getYear() <= 2000) {
-                            selectedBooks.add(book);
-                        }
-                    }
+                    selectedBooks.removeIf(book -> book.getPublicationDate().getYear() <= 1950 || book.getPublicationDate().getYear() > 2000);
                     break;
 
                 case "After 2000":
-                    for (Book book : books) {
-                        if (book.getPublicationDate().getYear() > 2000) {
-                            selectedBooks.add(book);
-                        }
-                    }
+                    selectedBooks.removeIf(book -> book.getPublicationDate().getYear() <= 2000);
                     break;
             }
 
@@ -155,29 +136,46 @@ public class SearchResultsPage extends BackgroundPanel {
     }
 
     private void displayResults(List<Book> books) {
-        String[] columns = {"ID", "Title", "Author", "Year", "Language", "Publishing House"};
+        String[] columns = {"ID", "Title", "Author", "Year", "Language"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
 
         for (Book book : books) {
             Object[] row = {
                     book.getId(),
                     book.getTitle(),
-                    book.getAuthorId(), // Assuming you will replace with author name
-                    book.getPublicationDate().getYear(),
-                    book.getLanguage(),
-                    book.getPublishingHouse()
+                    book.getAuthorId(),
+                    book.getPublicationDate(),
+                    book.getLanguage()
             };
             model.addRow(row);
         }
 
         resultsTable.setModel(model);
+
+
+        resultsTable.setFont(new Font("Serif", Font.PLAIN, 18));
+        resultsTable.setRowHeight(30);
+        resultsTable.setShowGrid(true);
+        resultsTable.setGridColor(Color.GRAY);
+
+
+        resultsTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+                }
+                return c;
+            }
+        });
     }
 
     private List<Book> getBooks() {
-        BookRepository bookRepository=new BookRepository();
-        List<org.example.entities.Book> allBooks = bookRepository.selectAllBooks();
-        return allBooks;
+        BookRepository bookRepository = new BookRepository();
+        return bookRepository.selectAllBooks();
     }
+
     public void setSearchResultsListener(SearchResultsListener listener) {
         this.listener = listener;
     }

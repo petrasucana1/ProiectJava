@@ -31,14 +31,14 @@ public class QuizPage extends BackgroundPanel {
 
         setLayout(new BorderLayout());
 
-        // Panel pentru titlu
+
         JPanel titlePanel = new JPanel();
         titlePanel.setOpaque(false);
         JLabel titleLabel = createTitleLabel("Answer the following questions:");
         titlePanel.add(titleLabel);
         add(titlePanel, BorderLayout.NORTH);
 
-        // Panel pentru chestionar
+
         JPanel quizPanel = new JPanel(new GridBagLayout());
         quizPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margini pentru spațiu
         quizPanel.setOpaque(false); // Transparent
@@ -47,7 +47,7 @@ public class QuizPage extends BackgroundPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Prima întrebare și opțiunile sale (stânga sus)
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -72,7 +72,7 @@ public class QuizPage extends BackgroundPanel {
         gbc.gridy = 4;
         quizPanel.add(option1d, gbc);
 
-        // A doua întrebare și opțiunile sale (dreapta sus)
+
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -93,7 +93,7 @@ public class QuizPage extends BackgroundPanel {
         gbc.gridy = 3;
         quizPanel.add(option2c, gbc);
 
-        // A treia întrebare și opțiunile sale (stânga jos)
+
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 1;
@@ -122,7 +122,7 @@ public class QuizPage extends BackgroundPanel {
         gbc.gridy = 12;
         quizPanel.add(option3g, gbc);
 
-        // A patra întrebare și opțiunile sale (dreapta jos)
+
         gbc.gridx = 1;
         gbc.gridy = 5;
         gbc.gridwidth = 1;
@@ -139,18 +139,18 @@ public class QuizPage extends BackgroundPanel {
         gbc.gridy = 7;
         quizPanel.add(option4No, gbc);
 
-        // Adăugăm panoul de chestionar într-un JScrollPane
+
         JScrollPane scrollPane = new JScrollPane(quizPanel);
-        scrollPane.setOpaque(false); // Transparent
-        scrollPane.getViewport().setOpaque(false); // Transparent
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Butonul de căutare
+
         searchButton = new JButton("Search Book");
         searchButton.setForeground(Color.WHITE);
-        searchButton.setBackground(new Color(0, 0, 0, 100)); // Semitransparent
-        searchButton.setFont(new Font("Serif", Font.BOLD, 24)); // Setăm fontul butonului
-        searchButton.setPreferredSize(new Dimension(200, 50)); // Setăm dimensiunea butonului
+        searchButton.setBackground(new Color(0, 0, 0, 100));
+        searchButton.setFont(new Font("Serif", Font.BOLD, 24));
+        searchButton.setPreferredSize(new Dimension(200, 50));
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setOpaque(false); // Transparent
         buttonPanel.add(searchButton);
@@ -159,7 +159,6 @@ public class QuizPage extends BackgroundPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Deschidem SearchResultPage când utilizatorul apasă butonul de căutare
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(QuizPage.this);
                 frame.getContentPane().removeAll();
                 List<String> selectedAnswers= collectSelectedOptions();
@@ -173,22 +172,22 @@ public class QuizPage extends BackgroundPanel {
     private JLabel createTitleLabel(String text) {
         JLabel label = new JLabel(text);
         label.setForeground(Color.WHITE);
-        label.setFont(new Font("Serif", Font.BOLD, 24)); // Setăm fontul label-ului
+        label.setFont(new Font("Serif", Font.BOLD, 24));
         return label;
     }
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
         label.setForeground(Color.WHITE);
-        label.setFont(new Font("Serif", Font.BOLD, 18)); // Setăm fontul label-ului
+        label.setFont(new Font("Serif", Font.BOLD, 18));
         return label;
     }
 
     private JRadioButton createRadioButton(String text) {
         JRadioButton radioButton = new JRadioButton(text);
         radioButton.setForeground(Color.WHITE);
-        radioButton.setOpaque(false); // Transparent
-        radioButton.setFont(new Font("Serif", Font.BOLD, 18)); // Setăm fontul radio button-ului
+        radioButton.setOpaque(false);
+        radioButton.setFont(new Font("Serif", Font.BOLD, 18));
         return radioButton;
     }
 
@@ -196,7 +195,7 @@ public class QuizPage extends BackgroundPanel {
         JCheckBox checkBox = new JCheckBox(text);
         checkBox.setForeground(Color.WHITE);
         checkBox.setOpaque(false); // Transparent
-        checkBox.setFont(new Font("Serif", Font.BOLD, 18)); // Setăm fontul check box-ului
+        checkBox.setFont(new Font("Serif", Font.BOLD, 18));
         return checkBox;
     }
 
